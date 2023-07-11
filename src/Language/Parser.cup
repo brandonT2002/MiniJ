@@ -1,0 +1,259 @@
+/* 1. Package e importaciones */
+package Language;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java_cup.runtime.*;
+import Components.Response;
+import Components.ErrorS;
+
+/* 2. Codigo para el parser, variables y metodos */
+
+parser code 
+{:
+    ArrayList<Response> errorsS = new ArrayList<>();
+    public void syntax_error(Symbol sym) {
+        errorsS.add(new Response(new ErrorS(sym.left,sym.right,sym.value,TOK.terminalNames[sym.sym])));
+    }
+    public void unrecovered_syntax_error(Symbol sym) throws java.lang.Exception {
+        errorsS.add(new Response("Error Sintáctico sin recuperar."));
+    }
+    public String getErrors() {
+        return errorsS.stream().map(Object::toString).collect(Collectors.joining("\n-> "));
+    }
+    public boolean isSuccessExecution() {
+        return !(errorsS.size() > 0);
+    }
+:} 
+
+/* 3. Terminales*/
+terminal String RW_main, RW_void, RW_String, RW_boolean, RW_char, RW_int, RW_double;
+terminal String RW_if, RW_else, RW_for, RW_while, RW_do, RW_switch, RW_case, RW_default;
+terminal String RW_break, RW_continue, RW_return;
+terminal String RW_true, RW_false, RW_print;
+terminal String TK_string, TK_char, TK_int, TK_double, TK_id, TK_inc, TK_dec, TK_add, TK_sub;
+terminal String TK_plus, TK_minus, TK_mult, TK_div, TK_pow, TK_mod, TK_uminus;
+terminal String TK_equequ, TK_notequ, TK_lessequ, TK_moreequ, TK_equ, TK_less, TK_more;
+terminal String TK_and, TK_or, TK_not;
+terminal String TK_lpar, TK_rpar, TK_lbrc, TK_rbrc, TK_comma, TK_colon, TK_semicolon;
+
+/* 4. No Terminales*/
+non terminal String INIT, INSTSGLOBAL, INSTGLOBAL, CALLMAINFUNC, CALLFUNC, LISTARGS, LISTPARAMS;
+non terminal String EXP, ARITHMETICS, RELATIONALS, LOGICS, INCDEC, ADDSUB;
+non terminal String DECLID, TYPE, INITIDS, INITID, DECLFUNC, ENV, INSTRUCTIONS, INSTRUCTION;
+non terminal String PRINT, IFSTRUCT, SWITCHSTRUCT, ENVS, CASESDEFAULT, CASES, DEFAULT, CASE;
+non terminal String LOOPWHILE, LOOPDOWHILE, LOOPFOR, ARGSFOR, INITIALIZE, UPDATESFOR, UPDATEFOR, REASIGNS, REASIGN;
+
+/* 5. Precedencias */
+precedence left TK_or;
+precedence left TK_and;
+precedence right TK_not;
+precedence left TK_equequ, TK_notequ;
+precedence left TK_lessequ, TK_moreequ, TK_less, TK_more;
+precedence left TK_plus, TK_minus;
+precedence left TK_mult, TK_div, TK_mod;
+precedence nonassoc TK_pow;
+precedence right TK_uminus;
+precedence left TK_inc, TK_dec;
+
+/* 6. Gramatica Libre de Contexto */
+
+start with INIT;
+
+INIT ::= INSTSGLOBAL;
+
+INSTSGLOBAL ::=
+    INSTSGLOBAL INSTGLOBAL |
+    INSTGLOBAL ;
+
+INSTGLOBAL ::=
+    CALLMAINFUNC |
+    DECLID       |
+    DECLFUNC     |
+    error        ;
+
+CALLMAINFUNC ::=
+    RW_main CALLFUNC TK_semicolon ;
+
+CALLFUNC ::=
+    TK_id TK_lpar LISTARGS TK_rpar |
+    TK_id TK_lpar TK_rpar          ;
+
+LISTARGS ::=
+    LISTARGS TK_comma EXP |
+    EXP                   ;
+
+DECLID ::=
+    TYPE INITIDS TK_semicolon ;
+
+INITIDS ::=
+    INITIDS TK_comma INITID |
+    INITID                  ;
+
+INITID ::=
+    TK_id TK_equ EXP |
+    TK_id            ;
+
+DECLFUNC ::=
+    TYPE TK_id TK_lpar LISTPARAMS TK_rpar ENV    |
+    RW_void TK_id TK_lpar LISTPARAMS TK_rpar ENV |
+    TYPE TK_id TK_lpar TK_rpar ENV               |
+    RW_void TK_id TK_lpar TK_rpar ENV            ;
+
+LISTPARAMS ::=
+    LISTPARAMS TK_comma TYPE TK_id |
+    TYPE TK_id                     ;
+
+IFSTRUCT ::=
+    RW_if TK_lpar EXP TK_rpar ENV RW_else IFSTRUCT |
+    RW_if TK_lpar EXP TK_rpar ENV RW_else ENV      |
+    RW_if TK_lpar EXP TK_rpar ENV                  ;
+
+SWITCHSTRUCT ::=
+    RW_switch TK_lpar EXP TK_rpar ENVS;
+
+ENVS ::=
+    TK_lbrc CASESDEFAULT TK_rbrc |
+    TK_lbrc TK_rbrc              ;
+
+CASESDEFAULT ::=
+    CASES DEFAULT |
+    CASES         |
+    DEFAULT       ;
+
+CASES ::= 
+    CASES CASE |
+    CASE       ;
+
+CASE ::= 
+    RW_case EXP TK_colon INSTRUCTIONS |
+    RW_case EXP TK_colon ENV          |
+    RW_case EXP TK_colon              ;
+
+DEFAULT ::=
+    RW_default TK_colon INSTRUCTIONS |
+    RW_default TK_colon ENV          |
+    RW_default TK_colon              ;
+
+LOOPFOR ::=
+    RW_for TK_lpar ARGSFOR TK_rpar ENV;
+
+ARGSFOR ::=
+    INITIALIZE TK_semicolon EXP TK_semicolon UPDATESFOR |
+    INITIALIZE TK_semicolon EXP TK_semicolon            |
+    INITIALIZE TK_semicolon TK_semicolon UPDATESFOR     |
+    TK_semicolon EXP TK_semicolon UPDATESFOR            |
+    INITIALIZE TK_semicolon TK_semicolon                |
+    TK_semicolon EXP TK_semicolon                       |
+    TK_semicolon TK_semicolon UPDATESFOR                |
+    TK_semicolon TK_semicolon                           ;
+
+INITIALIZE ::=
+    TYPE REASIGNS |
+    REASIGNS      ;
+
+REASIGNS ::=
+    REASIGNS TK_comma REASIGN |
+    REASIGN                   ;
+
+UPDATESFOR ::=
+    UPDATESFOR TK_comma UPDATEFOR |
+    UPDATEFOR                     ;
+
+UPDATEFOR ::=
+    INCDEC  |
+    REASIGN |
+    ADDSUB  ;
+
+LOOPWHILE ::=
+    RW_while TK_lpar EXP TK_rpar ENV ;
+
+LOOPDOWHILE ::=
+    RW_do ENV RW_while TK_lpar EXP TK_rpar TK_semicolon;
+
+REASIGN ::=
+    TK_id TK_equ EXP ;
+
+ADDSUB ::=
+    TK_id TK_add EXP |
+    TK_id TK_sub EXP ;
+
+ENV ::=
+    TK_lbrc INSTRUCTIONS TK_rbrc |
+    TK_lbrc TK_rbrc              ;
+
+INSTRUCTIONS ::=
+    INSTRUCTIONS INSTRUCTION |
+    INSTRUCTION              ;
+
+INSTRUCTION ::=
+    DECLID                             |
+    IFSTRUCT                           |
+    SWITCHSTRUCT                       |
+    LOOPFOR                            |
+    LOOPWHILE                          |
+    LOOPDOWHILE                        |
+    PRINT                              |
+    ADDSUB TK_semicolon                |
+    REASIGN TK_semicolon               |
+    INCDEC TK_semicolon                |
+    CALLFUNC TK_semicolon              |
+    RW_return EXP TK_semicolon         |
+    RW_return TK_semicolon             |
+    RW_continue TK_semicolon           |
+    RW_break TK_semicolon              |
+    error                              ;
+
+PRINT ::=
+    RW_print TK_lpar EXP TK_rpar TK_semicolon |
+    RW_print TK_lpar TK_rpar TK_semicolon     ;
+
+TYPE ::=
+    RW_String  |
+    RW_int     |
+    RW_boolean |
+    RW_char    |
+    RW_double  ;
+
+EXP ::=
+    ARITHMETICS         |
+    RELATIONALS         |
+    LOGICS              |
+    INCDEC              |
+    CALLFUNC            |
+    TK_string           |
+    TK_char             |
+    TK_int              |
+    TK_double           |
+    TK_id               |
+    RW_true             |
+    RW_false            |
+    TK_lpar EXP TK_rpar ;
+
+INCDEC ::=
+    TK_id TK_inc |
+    TK_id TK_dec ;
+
+ARITHMETICS ::=
+    EXP TK_plus  EXP |
+    EXP TK_minus EXP |
+    EXP TK_mult  EXP |
+    EXP TK_div   EXP |
+    EXP TK_pow   EXP |
+    EXP TK_mod   EXP |
+    TK_minus     EXP %prec TK_uminus ;
+
+RELATIONALS ::=
+    EXP TK_equequ  EXP |
+    EXP TK_notequ  EXP |
+    EXP TK_lessequ EXP |
+    EXP TK_moreequ EXP |
+    EXP TK_less    EXP |
+    EXP TK_more    EXP ;
+
+LOGICS ::=
+    EXP TK_and EXP |
+    EXP TK_or  EXP |
+    TK_not     EXP ;

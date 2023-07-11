@@ -1,0 +1,100 @@
+main inicial();
+
+int n = 0, t, r = 1 + 3 * 4, m;
+String hola = "Hola";
+String mundo = "Mundo";
+String saludo = hola + mundo;
+boolean a = true;
+boolean b;
+
+void inicial() {
+    int fact = 5;
+    print("Factorial: " + fact + " = " + factorial(fact));
+    estructuraIf();
+    estructuraSwitch();
+    loopFor();
+    loopWhile();
+    loopDowhile();
+    fact += 70;
+}
+
+void loopFor() {
+    for(int i = 0; i < 7; i++) {
+        print("i = " + i);
+    }
+    int i = 7, j;
+    double k;
+    for(i = 0, j = 6, k = 0; i < 7 && j >= 0; i = i + 1, j --, k += 0.1) {
+        print("i = " + i + ", j = " + j + ", k = " + k);
+    }
+    for(String palabra = "Hola"; !(palabra == "Hola!!!!"); palabra += "!") {
+        print(palabra);
+    }
+}
+
+void loopWhile() {
+    while (i > 0 && t != 30) {
+        i ++;
+    }
+}
+
+void loopDowhile() {
+    do {
+        i ++;
+    }
+    while (i > 0 && t != 30);
+}
+
+void estructuraSwitch() {
+    String i = "Adios";
+    switch(i) {
+        case "Hola":
+            print("Saludo Hola");
+            break;
+        case "Adios": {
+            print("Saludo Adios");
+            break;
+        }
+        case "Bienvenido":
+        default:
+            print("Saludo random");
+    }
+}
+
+void estructuraIf() {
+    // IF ELSE IF ELSE
+    if(hola == "Hola") {
+        print("Hola");
+    }
+    else if (hola == "Mundo"){
+        print("Mundo");
+    }
+    else {
+        print("Hola Mundo");
+    }
+    // IF ELSE
+    if(hola == "Hola") {
+        print("Hola");
+    }
+    else {
+        print("Hola Mundo");
+    }
+    // IF ELSE IF
+    if(hola == "Hola") {
+        print("Hola");
+    }
+    else if (hola == "Mundo"){
+        print("Mundo");
+    }
+    // IF
+    if(hola == "Hola") {
+        print("Hola");
+    }
+}
+
+int factorial(int n) {
+    if(n > 0) {
+        return factorial(n - 1);
+    }
+    return 1;
+}

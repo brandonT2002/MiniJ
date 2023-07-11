@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "/home/brandon/workspace-java/Librerias/jflex-full-1.7.0.jar",
+        "/home/brandon/workspace-java/Librerias/java-cup-11b.jar",
+        "/home/brandon/workspace-java/Librerias/java-cup-11b-runtime.jar"
+    ]
+}
