@@ -27,22 +27,24 @@ void loopFor() {
     for(i = 0, j = 6, k = 0; i < 7 && j >= 0; i = i + 1, j --, k += 0.1) {
         print("i = " + i + ", j = " + j + ", k = " + k);
     }
-    for(String palabra = "Hola"; !(palabra == "Hola!!!!"); palabra += "!") {
+    for(String palabra = "Hola"; palabra != "Hola!!!!"; palabra += "!") {
         print(palabra);
     }
 }
 
 void loopWhile() {
-    while (i > 0 && t != 30) {
+    int i = 0;
+    while(i > 0 && t != 30) {
         i ++;
     }
 }
 
 void loopDowhile() {
+    int i = 0;
     do {
         i ++;
     }
-    while (i > 0 && t != 30);
+    while(i > 0 && t != 30);
 }
 
 void estructuraSwitch() {
@@ -66,7 +68,7 @@ void estructuraIf() {
     if(hola == "Hola") {
         print("Hola");
     }
-    else if (hola == "Mundo"){
+    else if(hola == "Mundo"){
         print("Mundo");
     }
     else {
@@ -83,7 +85,7 @@ void estructuraIf() {
     if(hola == "Hola") {
         print("Hola");
     }
-    else if (hola == "Mundo"){
+    else if(hola == "Mundo"){
         print("Mundo");
     }
     // IF
@@ -94,7 +96,7 @@ void estructuraIf() {
 
 int factorial(int n) {
     if(n > 0) {
-        return factorial(n - 1);
+        return n * factorial(n - 1);
     }
     return 1;
 }

@@ -1,4 +1,5 @@
 package Interface;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -23,17 +24,19 @@ import javax.swing.text.TabStop;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 import Templates.Colors;
+
 public class EditorArea extends JPanel {
     JTextPane editor;
     JScrollPane scroll;
+
     public EditorArea() {
         setAlignmentX(LEFT_ALIGNMENT);
         setForeground(Colors.WHITE);
         setBackground(Colors.DARKVSCODE);
-        setMinimumSize(new Dimension (30, 30));
-        setPreferredSize(new Dimension (30, 30));
-        setMinimumSize(new Dimension (30, 30));
-        //editor
+        setMinimumSize(new Dimension(30, 30));
+        setPreferredSize(new Dimension(30, 30));
+        setMinimumSize(new Dimension(30, 30));
+        // editor
         editor = new JTextPane() {
             public void paint(Graphics g) {
                 super.paint(g);
@@ -41,23 +44,21 @@ public class EditorArea extends JPanel {
             }
         };
         editor.setEditorKit(
-            new StyledEditorKit() {
-                public ViewFactory getViewFactory() {
-                    return new NoWrapViewFactory();
-                }
-            }
-        );
+                new StyledEditorKit() {
+                    public ViewFactory getViewFactory() {
+                        return new NoWrapViewFactory();
+                    }
+                });
 
-        
         editor.setForeground(Colors.WHITE);
         editor.setBackground(Colors.DARKVSCODE);
-        editor.setFont(new java.awt.Font("Consolas", 0, 11));
+        editor.setFont(new java.awt.Font("Consolas", 0, 13));
         editor.setCaretColor(Colors.WHITE);
         editor.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         TabStop[] tabStops = new TabStop[50];
         int tabWidth = 4 * editor.getFontMetrics(editor.getFont()).charWidth(' ');
-        for(int i = 0; i < tabStops.length; i ++) {
+        for (int i = 0; i < tabStops.length; i++) {
             tabStops[i] = new TabStop((i + 1) * tabWidth, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE);
         }
         TabSet tabSet = new TabSet(tabStops);
@@ -66,34 +67,36 @@ public class EditorArea extends JPanel {
         StyleConstants.setTabSet(paragraphStyle, tabSet);
         doc.setParagraphAttributes(0, doc.getLength(), paragraphStyle, false);
 
-        //scroll
+        // scroll
         scroll = new JScrollPane(editor);
         scroll.setBorder(null);
     }
+
     public void paint(Graphics g) {
         super.paint(g);
         int start = editor.viewToModel(scroll.getViewport().getViewPosition());
         int end = editor.viewToModel(
-            new Point(
-                scroll.getViewport().getViewPosition().x + editor.getWidth(),
-                scroll.getViewport().getViewPosition().y + editor.getHeight()
-            )
-        );
+                new Point(
+                        scroll.getViewport().getViewPosition().x + editor.getWidth(),
+                        scroll.getViewport().getViewPosition().y + editor.getHeight()));
         Document doc = editor.getDocument();
         int startline = doc.getDefaultRootElement().getElementIndex(start);
         int endline = doc.getDefaultRootElement().getElementIndex(end) + 1;
         int fontSize = g.getFontMetrics(editor.getFont()).getHeight();
-        for(int line = startline, y = 0; line <= endline; line ++, y += fontSize) {
-            g.drawString(Integer.toString(line), 0, y);
+        for (int line = startline, y = 0; line <= endline; line++, y += fontSize) {
+            g.drawString(Integer.toString(line), 0, y - 2);
         }
     }
 }
+
 class NoWrapEditorKit extends DefaultEditorKit {
     private static final long serialVersionUID = 1L;
+
     public ViewFactory getViewFactory() {
         return new NoWrapViewFactory();
     }
 }
+
 class NoWrapViewFactory implements ViewFactory {
     public View create(Element element) {
         String kind = element.getName();
@@ -118,9 +121,11 @@ class NoWrapParagraphView extends ParagraphView {
     public NoWrapParagraphView(Element elem) {
         super(elem);
     }
+
     public void layout(int width, int height) {
         super.layout(Short.MAX_VALUE, height);
     }
+
     public float getMinimumSpan(int axis) {
         return super.getPreferredSpan(axis);
     }

@@ -1,4 +1,5 @@
 package Interface;
+
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -19,16 +20,18 @@ import Templates.Colors;
 import Templates.Button;
 import Templates.FunctionButton;
 import Templates.Icons;
+
 public class ToolBar extends JPanel implements MouseListener {
-    Button newOLC,openOLC,saveAsOLC;
+    Button newOLC, openOLC, saveAsOLC;
     Controller controller;
-    File olcFile,auxiliar;
-    FunctionButton close,minimize;
+    File olcFile, auxiliar;
+    FunctionButton close, minimize;
     IDE ide;
     JFileChooser file;
     JPanel div;
     Window w;
-    public ToolBar(Controller controller,IDE ide,Window w) {
+
+    public ToolBar(Controller controller, IDE ide, Window w) {
         this.w = w;
         this.ide = ide;
         this.controller = this.ide.controller;
@@ -40,66 +43,75 @@ public class ToolBar extends JPanel implements MouseListener {
         addCloseButton();
         addDivisor();
     }
+
     private void addOpenOLC() {
         openOLC = new Button("Abrir");
-        openOLC.locationSize(20,5,50,25);
-        openOLC.text(Colors.WHITE,14);
+        openOLC.locationSize(20, 5, 50, 25);
+        openOLC.text(Colors.WHITE, 14);
         openOLC.setDesign(Colors.MEDIUMVSCODE1);
         openOLC.setHoverColor(Colors.MEDIUMVSCODE2);
         openOLC.addMouseListener(this);
         this.add(openOLC);
     }
+
     private void addNewOLC() {
         newOLC = new Button("Nuevo");
-        newOLC.locationSize(72,5,60,25);
-        newOLC.text(Colors.WHITE,14);
+        newOLC.locationSize(72, 5, 60, 25);
+        newOLC.text(Colors.WHITE, 14);
         newOLC.setDesign(Colors.MEDIUMVSCODE1);
         newOLC.setHoverColor(Colors.MEDIUMVSCODE2);
         newOLC.addMouseListener(this);
         this.add(newOLC);
     }
+
     private void addSaveAsOLC() {
         saveAsOLC = new Button("Guardar Como");
-        saveAsOLC.locationSize(134,5,110,25);
-        saveAsOLC.text(Colors.WHITE,14);
+        saveAsOLC.locationSize(134, 5, 110, 25);
+        saveAsOLC.text(Colors.WHITE, 14);
         saveAsOLC.setDesign(Colors.MEDIUMVSCODE1);
         saveAsOLC.setHoverColor(Colors.MEDIUMVSCODE2);
         saveAsOLC.addMouseListener(this);
         this.add(saveAsOLC);
     }
+
     private void init() {
         this.setLayout(null);
         this.setBackground(Colors.MEDIUMVSCODE1);
         this.setVisible(true);
     }
+
     private void addDivisor() {
         div = new JPanel();
         div.setBackground(Colors.MEDIUMVSCODE2);
-        div.setBounds(0,35,1390,5);
+        div.setBounds(0, 35, 1920, 5);
         div.setVisible(true);
         this.add(div);
     }
+
     private void addCloseButton() {
         close = new FunctionButton();
-        close.locationSize(1331,0,45,35);
-        close.text("×",25);
+        close.locationSize(1875, 0, 45, 35);
+        close.text("×", 25);
         close.setHoverColor(Colors.RED);
         close.addMouseListener(this);
         this.add(close);
     }
+
     private void addMinimizeButton() {
         minimize = new FunctionButton();
-        minimize.locationSize(1286,0,45,35);
-        minimize.text("─",20);
+        minimize.locationSize(1830, 0, 45, 35);
+        minimize.text("─", 20);
         minimize.setHoverColor(Colors.LIGHTVSCODE);
         minimize.addMouseListener(this);
         this.add(minimize);
     }
+
     private void chooseFile() {
         try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-		}
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e) {
+        }
         this.file = new JFileChooser();
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos OLC (*.olc)", "olc");
         file.setFileFilter(filtro);
@@ -107,26 +119,27 @@ public class ToolBar extends JPanel implements MouseListener {
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             olcFile = file.getSelectedFile();
             int index = controller.existPJFile(olcFile.getAbsolutePath());
-            if(index == -1) {
-                controller.pjs.add(new IconFile(controller.countPJ(),olcFile,ide,controller));
+            if (index == -1) {
+                controller.pjs.add(new IconFile(controller.countPJ(), olcFile, ide, controller));
                 controller.serialize();
                 controller.deserialize(ide);
                 ide.lookPJFiles();
                 controller.pjs.get(controller.countPJ() - 1).lookCode();
-            }
-            else {
+            } else {
                 controller.pjs.get(index).lookCode();
             }
         }
     }
+
     private void createFile(String content) {
         try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-		}
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e) {
+        }
         this.file = new JFileChooser();
         this.file.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int seleccion = file.showDialog(null,"Seleccionar Directorio");
+        int seleccion = file.showDialog(null, "Seleccionar Directorio");
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             olcFile = file.getSelectedFile();
             String name;
@@ -134,41 +147,42 @@ public class ToolBar extends JPanel implements MouseListener {
             String path;
             ImageIcon icon = new ImageIcon(Icons.FILE1);
             Image img = icon.getImage();
-            img = img.getScaledInstance(40,40,Image.SCALE_DEFAULT);
+            img = img.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
             icon = new ImageIcon(img);
             do {
-                
-                name = (String) JOptionPane.showInputDialog(null,message,"Nuevo Proyecto",JOptionPane.PLAIN_MESSAGE,icon,null,null);
-                if(name == null) break;
-                else if(name.replace(" ","").equals("")) {
+
+                name = (String) JOptionPane.showInputDialog(null, message, "Nuevo Proyecto", JOptionPane.PLAIN_MESSAGE,
+                        icon, null, null);
+                if (name == null)
+                    break;
+                else if (name.replace(" ", "").equals("")) {
                     message = "Debe Ingresar un Nombre.\nNombre del Archivo OLC [.olc]:";
                     continue;
                 }
                 path = olcFile.getAbsolutePath() + "\\" + name + ".olc";
                 auxiliar = new File(path);
-                if(!auxiliar.exists()) {
+                if (!auxiliar.exists()) {
                     try {
                         BufferedWriter writer = new BufferedWriter(
-                            new OutputStreamWriter(
-                                new FileOutputStream(auxiliar),
-                                "utf-8"
-                            )
-                        );
+                                new OutputStreamWriter(
+                                        new FileOutputStream(auxiliar),
+                                        "utf-8"));
                         writer.write(content);
                         writer.close();
-                        controller.pjs.add(new IconFile(controller.countPJ(),auxiliar,ide,controller));
+                        controller.pjs.add(new IconFile(controller.countPJ(), auxiliar, ide, controller));
                         controller.serialize();
                         controller.deserialize(ide);
                         ide.lookPJFiles();
                         controller.pjs.get(controller.countPJ() - 1).lookCode();
+                    } catch (Exception e1) {
                     }
-                    catch(Exception e1) {}
                     break;
                 }
                 message = "El nuevo archivo no puede llamarse\ncon el mismo nombre de uno existente\nen el mismo directorio.\nNombre del Archivo OLC [.olc]:";
-            } while(true);
+            } while (true);
         }
     }
+
     private void deleteFile(File file) {
         File[] archivos = file.listFiles();
         if (archivos != null) {
@@ -182,41 +196,47 @@ public class ToolBar extends JPanel implements MouseListener {
         }
         file.delete();
     }
+
     private void deleteDirectories() {
         File file = new File("Dot");
-        if(file.exists()) {
+        if (file.exists()) {
             deleteFile(file);
         }
         file = new File("Data");
-        if(file.exists()) {
+        if (file.exists()) {
             deleteFile(file);
-        }        
+        }
     }
+
     public void mouseClicked(MouseEvent e) {
-        if(e.getSource() == openOLC) {
+        if (e.getSource() == openOLC) {
             chooseFile();
-        }
-        else if(e.getSource() == newOLC) {
+        } else if (e.getSource() == newOLC) {
             createFile("");
-        }
-        else if(e.getSource() == saveAsOLC) {
+        } else if (e.getSource() == saveAsOLC) {
             try {
                 StyledDocument doc = ide.editorArea.editor.getStyledDocument();
-                String input = doc.getText(0,doc.getLength());
+                String input = doc.getText(0, doc.getLength());
                 createFile(input);
+            } catch (Exception e1) {
             }
-            catch(Exception e1) {}
-        }
-        else if(e.getSource() == close) {
+        } else if (e.getSource() == close) {
             deleteDirectories();
             System.exit(0);
-        }
-        else if(e.getSource() == minimize) {
+        } else if (e.getSource() == minimize) {
             w.setState(1);
         }
     }
-    public void mousePressed(MouseEvent e) {}
-    public void mouseReleased(MouseEvent e) {}
-    public void mouseEntered(MouseEvent e) {}
-    public void mouseExited(MouseEvent e) {}
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
 }
