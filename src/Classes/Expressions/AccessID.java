@@ -2,7 +2,9 @@ package Classes.Expressions;
 
 import Classes.Abstracts.Expression;
 import Classes.Env.Env;
+import Classes.Env.Symbol;
 import Classes.Utils.ReturnType;
+import Classes.Utils.Type;
 import Classes.Utils.TypeExp;
 
 public class AccessID extends Expression {
@@ -14,6 +16,11 @@ public class AccessID extends Expression {
     }
 
     public ReturnType exec(Env env) {
-        return null;
+        Symbol value = env.getValue(id);
+        if (value != null) {
+            return new ReturnType(value.value, value.type);
+        }
+
+        return new ReturnType("NULL", Type.NULL);
     }
 }

@@ -26,7 +26,10 @@ public class Arithmetic extends Expression {
             case "+":
                 return plus(env);
             case "-":
-                return minus(env);
+                if (exp1 != null) {
+                    return minus(env);
+                }
+                return uminus(env);
             case "*":
                 return pow(env);
             case "/":
@@ -58,7 +61,7 @@ public class Arithmetic extends Expression {
                 return new ReturnType(result, type);
             }
             if (type == Type.STRING) {
-                String result = getValue(value1).value.toString() + getValue(value2).value.toString();
+                String result = value1.value.toString() + value2.value.toString();
                 return new ReturnType(result, type);
             }
         }
@@ -192,7 +195,7 @@ public class Arithmetic extends Expression {
 
     public ReturnType getValue(ReturnType value) {
         if (value.type == Type.BOOLEAN) {
-            if (value.value.equals("true")) {
+            if (value.value.toString().equals("true")) {
                 return new ReturnType(1, Type.INT);
             }
             return new ReturnType(0, Type.INT);

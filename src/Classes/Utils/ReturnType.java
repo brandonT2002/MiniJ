@@ -8,4 +8,9 @@ public class ReturnType {
         this.value = value;
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Object: " + value + ", Type: " + type;
+    }
 }
