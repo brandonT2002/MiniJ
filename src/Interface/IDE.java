@@ -48,10 +48,10 @@ public class IDE extends JPanel
     public JLabel img;
     JPanel editorAreaContent;
     JPanel editorAreaContentFalse;
-    public JPanel graphics;
+    // public JPanel graphics;
     JPanel projects;
-    JScrollPane consoleScroll;
-    JTextPane console;
+    JScrollPane consoleScroll, outScroll;
+    public JTextPane console, outConsole;
     public RadioButton treesR, nextsR, transitionsR, afdsR, afndsR;
     String input;
     Symbol sym;
@@ -80,7 +80,8 @@ public class IDE extends JPanel
         editorAreaContent = new JPanel();
         cursorPosition = new JLabel();
         console = new JTextPane();
-        graphics = new JPanel();
+        outConsole = new JTextPane();
+        // graphics = new JPanel();
         analyzeInput = new Button();
         uploadOuts = new Button();
         saveOLC = new Button();
@@ -123,16 +124,29 @@ public class IDE extends JPanel
         console.setBackground(Colors.DARKVSCODE);
         console.setText("Mini J:\n->");
         console.setFont(new java.awt.Font("Consolas", 0, 13));
-        console.setBounds(0, 0, 1120, 140);
+        console.setBounds(0, 0, 1566, 162);
 
         consoleScroll = new JScrollPane(console);
         consoleScroll.setBorder(BorderFactory.createLineBorder(Colors.DARKVSCODE, 8));
         consoleScroll.setBounds(304, 750, 1566, 162);
+        // out console
+        outConsole.setEditable(false);
+        outConsole.setForeground(Colors.WHITE);
+        outConsole.setBackground(Colors.DARKVSCODE);
+        outConsole.setText("Mini J:\n->");
+        outConsole.setFont(new java.awt.Font("Consolas", 0, 13));
+        outConsole.setBounds(0, 0, 770, 620);
+
+        outScroll = new JScrollPane(outConsole);
+        outScroll.setBorder(BorderFactory.createLineBorder(Colors.DARKVSCODE, 8));
+        outScroll.setBounds(1100, 105, 770, 620);
         // graphics
-        graphics.setBackground(Colors.DARKVSCODE);
-        graphics.setBounds(1100, 105, 770, 620);
-        graphics.setBorder(BorderFactory.createEmptyBorder());
-        graphics.setLayout(null);
+        /*
+         * graphics.setBackground(Colors.DARKVSCODE);
+         * graphics.setBounds(1100, 105, 770, 620);
+         * graphics.setBorder(BorderFactory.createEmptyBorder());
+         * graphics.setLayout(null);
+         */
         // analyzeInput
         analyzeInput.locationSize(624, 56, 30, 30);
         analyzeInput.Icon(Icons.PLAY);
@@ -236,7 +250,8 @@ public class IDE extends JPanel
         this.add(editorAreaContent);
         this.add(cursorPosition);
         this.add(consoleScroll);
-        this.add(graphics);
+        this.add(outScroll);
+        // this.add(graphics);
         this.add(analyzeInput);
         this.add(uploadOuts);
         this.add(saveOLC);
@@ -260,7 +275,7 @@ public class IDE extends JPanel
 
     void execute() {
         controller.setFormat(editorArea.editor);
-        controller.analyze(this, indexFilePJ, editorArea.editor, console, graphics);
+        controller.analyze(this, indexFilePJ, editorArea.editor, console);
     }
 
     void setFormat() {
@@ -318,8 +333,8 @@ public class IDE extends JPanel
                     Image.SCALE_DEFAULT));
             img.setIcon(icono);
             img.setSize(icono.getIconWidth(), icono.getIconHeight());
-            graphics.revalidate();
-            graphics.repaint();
+            // graphics.revalidate();
+            // graphics.repaint();
         } catch (Exception e1) {
         }
     }

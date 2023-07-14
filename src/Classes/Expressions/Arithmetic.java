@@ -31,7 +31,7 @@ public class Arithmetic extends Expression {
                 }
                 return uminus(env);
             case "*":
-                return pow(env);
+                return mult(env);
             case "/":
                 return div(env);
             case "^":

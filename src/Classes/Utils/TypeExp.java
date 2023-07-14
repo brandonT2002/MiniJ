@@ -10,5 +10,6 @@ public enum TypeExp {
     DEC,
     PARAMETER,
     CALL_FUNC,
-    RETURN
+    RETURN,
+    BLOCK_INST
 }

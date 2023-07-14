@@ -11,7 +11,7 @@ public class Env {
     private Map<String, Symbol> ids = new TreeMap<>();
     private Map<String, Function> functions = new TreeMap<>();
     private Env anterior;
-    private String name;
+    public String name;
 
     public Env(Env anterior, String name) {
         this.anterior = anterior;
@@ -27,7 +27,7 @@ public class Env {
         return false;
     }
 
-    public Symbol getValue(String id) {
+    public Symbol getValueID(String id) {
         Env current = this;
         while (current != null) {
             if (current.ids.containsKey(id)) {
@@ -75,7 +75,7 @@ public class Env {
 
     public Env getGlobal() {
         Env env = this;
-        while (env != null) {
+        while (env.anterior != null) {
             env = env.anterior;
         }
         return env;

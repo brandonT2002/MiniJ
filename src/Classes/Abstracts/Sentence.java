@@ -12,4 +12,8 @@ public abstract class Sentence {
         this.column = column;
         this.typeSent = typeSent;
     }
+
+    public String toString() {
+        return "Tipo Sentencia: " + typeSent;
+    }
 }

@@ -42,8 +42,8 @@ public class Tag extends Button {
         ide.indexFilePJ = -1;
         ide.editorArea.editor.setText("");
         ide.hideManagerGraphs();
-        ide.graphics.removeAll();
-        ide.graphics.repaint();
+        // ide.graphics.removeAll();
+        // ide.graphics.repaint();
         ide.remove(this);
         ide.repaint();
     }

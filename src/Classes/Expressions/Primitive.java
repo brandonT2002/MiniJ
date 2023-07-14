@@ -30,6 +30,7 @@ public class Primitive extends Expression {
                 value = value.toString().replace("\\\"", "\"");
                 value = value.toString().replace("\\'", "\'");
                 value = value.toString().replace("\\\\", "\\");
+                value = value.toString().substring(1, value.toString().length() - 1);
                 return new ReturnType(value, type);
         }
     }

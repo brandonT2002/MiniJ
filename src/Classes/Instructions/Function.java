@@ -4,18 +4,18 @@ import java.util.ArrayList;
 
 import Classes.Abstracts.Expression;
 import Classes.Abstracts.Instruction;
-import Classes.Abstracts.Sentence;
 import Classes.Env.Env;
+import Classes.Expressions.Block;
 import Classes.Utils.Type;
 import Classes.Utils.TypeInst;
 
 public class Function extends Instruction {
     public String id;
     public ArrayList<Expression> params;
-    public ArrayList<Sentence> block;
+    public Block block;
     public Type type;
 
-    public Function(int line, int column, String id, ArrayList<Expression> params, ArrayList<Sentence> block,
+    public Function(int line, int column, String id, ArrayList<Expression> params, Block block,
             Type type) {
         super(line, column, TypeInst.INIT_FUNCTION);
         this.id = id;

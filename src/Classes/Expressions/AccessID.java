@@ -16,7 +16,7 @@ public class AccessID extends Expression {
     }
 
     public ReturnType exec(Env env) {
-        Symbol value = env.getValue(id);
+        Symbol value = env.getValueID(id);
         if (value != null) {
             return new ReturnType(value.value, value.type);
         }

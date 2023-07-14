@@ -4,7 +4,6 @@ public enum TypeInst {
     PRINT,
     INIT_ID,
     ASIGN_ID,
-    BLOCK_INST,
     INIT_FUNCTION,
     MAIN,
     IF,
@@ -15,5 +14,7 @@ public enum TypeInst {
     LOOP_WHILE,
     LOOP_DOWHILE,
     SWITCH,
-    CASE
+    CASE,
+    ADD,
+    SUB
 }
