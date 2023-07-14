@@ -1,5 +1,4 @@
 package Controller;
-
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.text.StyledDocument;
-
 import Classes.Abstracts.Instruction;
 import Classes.Env.Env;
 import Classes.Instructions.MainMethod;
@@ -30,7 +28,6 @@ import Language.ParserF;
 import Language.Scanner;
 import Language.ScannerF;
 import Painter.WordPainter;
-
 public class Controller {
     public ArrayList<IconFile> pjs = new ArrayList<>();
 

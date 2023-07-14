@@ -36,18 +36,20 @@ public class CallFunction extends Expression {
                 }
                 ReturnType execute = func.block.exec(envFunc);
                 if (execute != null) {
-                    // if ((TypeExp) execute.value == TypeExp.RETURN) {
-                    // return new ReturnType("NULL", Type.NULL);
-                    // }
-                    // return execute;
+                    if (execute.value == TypeExp.RETURN) {
+                        return new ReturnType("NULL", Type.NULL);
+                    }
+                    return execute;
                 }
                 return new ReturnType("NULL", Type.NULL);
             }
             // ERROR SEMANTICO: NO CONICIDE LA CANTIDAD DE PARAMETROS ENVIADOS CON LOS
             // RECIBIDOS
+            System.out.println("CANTIDAD DE PARÁMETROS NO COINCIDEN");
             return new ReturnType("ERROR", Type.NULL);
         }
-        // ERROR SEMATICO: LA FUNCION QUE SE INITENTA LLAMAR NO ESTÁ DECLARADO
+        // ERROR SEMATICO: LA FUNCION QUE SE INTENTA LLAMAR NO ESTÁ DECLARADO
+        System.out.println("NO EXISTE LA FUNCIÓN QUE SE INTENTA LLAMAR");
         return new ReturnType("ERROR", Type.NULL);
     }
 }

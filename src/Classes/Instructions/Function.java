@@ -15,8 +15,7 @@ public class Function extends Instruction {
     public Block block;
     public Type type;
 
-    public Function(int line, int column, String id, ArrayList<Expression> params, Block block,
-            Type type) {
+    public Function(int line, int column, String id, ArrayList<Expression> params, Block block, Type type) {
         super(line, column, TypeInst.INIT_FUNCTION);
         this.id = id;
         this.params = params;

@@ -115,8 +115,8 @@ DECLFUNC ::=
     RW_void :t TK_id :id TK_lpar TK_rpar ENV :b               {:RESULT = new Function(tleft, tright, id, new ArrayList<>(), b, Type.NULL);:} ;
 
 LISTPARAMS ::=
-    LISTPARAMS TK_comma TYPE TK_id |
-    TYPE TK_id                     ;
+    LISTPARAMS:l TK_comma TYPE :t TK_id :id {:RESULT = l; RESULT.add(new Parameter(tleft, tright, id, t));                 :} |
+    TYPE :t TK_id :id                       {:RESULT = new ArrayList<>(Arrays.asList(new Parameter(tleft, tright, id, t)));:} ;
 
 IFSTRUCT ::=
     RW_if TK_lpar EXP TK_rpar ENV RW_else IFSTRUCT |
@@ -197,21 +197,21 @@ INSTRUCTIONS ::=
     INSTRUCTION :i                 {:RESULT = new ArrayList<>(Arrays.asList(i));:} ;
 
 INSTRUCTION ::=
-    DECLID       :ins               {:RESULT = ins;:} |
-    IFSTRUCT     :ins               {:RESULT = ins;:} |
-    SWITCHSTRUCT :ins               {:RESULT = ins;:} |
-    LOOPFOR      :ins               {:RESULT = ins;:} |
-    LOOPWHILE    :ins               {:RESULT = ins;:} |
-    LOOPDOWHILE  :ins               {:RESULT = ins;:} |
-    PRINT        :ins               {:RESULT = ins;:} |
-    ADDSUB       :ins  TK_semicolon {:RESULT = ins;:} |
-    REASIGN      :ins  TK_semicolon {:RESULT = ins;:} |
-    INCDEC       :ins  TK_semicolon {:RESULT = ins;:} |
-    CALLFUNC     :ins  TK_semicolon {:RESULT = ins;:} |
-    RW_return EXP :exp TK_semicolon |
-    RW_return          TK_semicolon |
-    RW_continue        TK_semicolon |
-    RW_break           TK_semicolon |
+    DECLID       :ins                       {:RESULT = ins;:} |
+    IFSTRUCT     :ins                       {:RESULT = ins;:} |
+    SWITCHSTRUCT :ins                       {:RESULT = ins;:} |
+    LOOPFOR      :ins                       {:RESULT = ins;:} |
+    LOOPWHILE    :ins                       {:RESULT = ins;:} |
+    LOOPDOWHILE  :ins                       {:RESULT = ins;:} |
+    PRINT        :ins                       {:RESULT = ins;:} |
+    ADDSUB       :ins TK_semicolon          {:RESULT = ins;:} |
+    REASIGN      :ins TK_semicolon          {:RESULT = ins;:} |
+    INCDEC       :ins TK_semicolon          {:RESULT = ins;:} |
+    CALLFUNC     :ins TK_semicolon          {:RESULT = ins;:} |
+    RW_return    :ins EXP :exp TK_semicolon {:RESULT = new Return(insleft, insright, exp); :} |
+    RW_return    :ins TK_semicolon          {:RESULT = new Return(insleft, insright, null);:} |
+    RW_continue  :ins TK_semicolon          {:RESULT = new Continue(insleft, insright);    :} |
+    RW_break     :ins TK_semicolon          {:RESULT = new Break(insleft, insright);       :} |
     error                           ;
 
 PRINT ::=

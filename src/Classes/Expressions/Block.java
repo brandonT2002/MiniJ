@@ -9,6 +9,7 @@ import Classes.Env.Env;
 import Classes.Utils.ReturnType;
 import Classes.Utils.Type;
 import Classes.Utils.TypeExp;
+import Classes.Utils.TypeInst;
 import Classes.Utils.TypeSent;
 
 public class Block extends Expression {
@@ -28,11 +29,14 @@ public class Block extends Expression {
             if (instruction.typeSent == TypeSent.EXPRESSION) {
                 exp = (Expression) instruction;
                 ret = exp.exec(newEnv);
-                if (ret != null && ret.type != Type.NULL && exp.typeExp != TypeExp.RETURN) {
+                if (ret != null && ret.type != Type.NULL && exp.typeExp == TypeExp.RETURN) {
                     return ret;
                 }
             } else if (instruction.typeSent == TypeSent.INSTRUCTION) {
                 inst = (Instruction) instruction;
+                if (inst.typeInst == TypeInst.BREAK || inst.typeInst == TypeInst.CONTINUE) {
+                    return new ReturnType(inst.typeInst, Type.NULL);
+                }
                 inst.exec(newEnv);
             }
         }
