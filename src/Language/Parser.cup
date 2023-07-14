@@ -119,9 +119,9 @@ LISTPARAMS ::=
     TYPE :t TK_id :id                       {:RESULT = new ArrayList<>(Arrays.asList(new Parameter(tleft, tright, id, t)));:} ;
 
 IFSTRUCT ::=
-    RW_if TK_lpar EXP TK_rpar ENV RW_else IFSTRUCT |
-    RW_if TK_lpar EXP TK_rpar ENV RW_else ENV      |
-    RW_if TK_lpar EXP TK_rpar ENV                  ;
+    RW_if :r TK_lpar EXP :cn TK_rpar ENV :b1 RW_else IFSTRUCT :b2 {:RESULT = new If(rleft, rright, cn, b1, b2);  :} |
+    RW_if :r TK_lpar EXP :cn TK_rpar ENV :b1 RW_else ENV :b2      {:RESULT = new If(rleft, rright, cn, b1, b2);  :} |
+    RW_if :r TK_lpar EXP :cn TK_rpar ENV :b1                      {:RESULT = new If(rleft, rright, cn, b1, null);:} ;
 
 SWITCHSTRUCT ::=
     RW_switch TK_lpar EXP TK_rpar ENVS;

@@ -11,5 +11,11 @@ public enum TypeExp {
     PARAMETER,
     CALL_FUNC,
     RETURN,
-    BLOCK_INST
+    BLOCK_INST,
+    IF,
+    LOOP_FOR,
+    LOOP_WHILE,
+    LOOP_DOWHILE,
+    SWITCH,
+    CASE
 }

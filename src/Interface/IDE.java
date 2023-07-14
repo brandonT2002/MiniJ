@@ -357,12 +357,14 @@ public class IDE extends JPanel
                 execute();
             } else {
                 console.setText("Mini J:\n->");
+                outConsole.setText("Mini J:\n->");
             }
         } else if (e.getSource() == uploadOuts) {
             if (indexFilePJ != -1) {
                 // controller.validateString(indexFilePJ,editorArea.editor,console);
             } else {
                 console.setText("Mini J:\n->");
+                outConsole.setText("Mini J:\n->");
             }
         } else if (e.getSource() == saveOLC) {
             if (indexFilePJ != -1) {

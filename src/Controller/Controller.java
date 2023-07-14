@@ -89,8 +89,11 @@ public class Controller {
                 }
                 if (mainMethod != null) {
                     mainMethod.exec(global);
-                    outPrint += "\n" + Classes.Utils.Out.printConsole.toString()
-                            .substring(1, Classes.Utils.Out.printConsole.toString().length() - 1).replace(", ", "\n");
+                    if(Classes.Utils.Out.printConsole.size() > 0){
+                        outPrint += "\n" + Classes.Utils.Out.printConsole.toString().substring(1, Classes.Utils.Out.printConsole.toString().length() - 1).replace(", ", "\n");
+                    } else {
+                        outPrint += "\n ->";
+                    }
                 } else {
                     outPrint += "\n->";
                 }

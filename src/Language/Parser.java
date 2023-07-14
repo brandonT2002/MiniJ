@@ -1026,7 +1026,19 @@ class CUP$Parser$actions {
           case 24: // IFSTRUCT ::= RW_if TK_lpar EXP TK_rpar ENV RW_else IFSTRUCT 
             {
               Sentence RESULT =null;
-
+		int rleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).left;
+		int rright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).right;
+		String r = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-6)).value;
+		int cnleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
+		int cnright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
+		Expression cn = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
+		int b1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int b1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Block b1 = (Block)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int b2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int b2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Sentence b2 = (Sentence)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		RESULT = new If(rleft, rright, cn, b1, b2);  
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("IFSTRUCT",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -1035,7 +1047,19 @@ class CUP$Parser$actions {
           case 25: // IFSTRUCT ::= RW_if TK_lpar EXP TK_rpar ENV RW_else ENV 
             {
               Sentence RESULT =null;
-
+		int rleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).left;
+		int rright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).right;
+		String r = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-6)).value;
+		int cnleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
+		int cnright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
+		Expression cn = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
+		int b1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int b1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Block b1 = (Block)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int b2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int b2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Block b2 = (Block)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		RESULT = new If(rleft, rright, cn, b1, b2);  
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("IFSTRUCT",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -1044,7 +1068,16 @@ class CUP$Parser$actions {
           case 26: // IFSTRUCT ::= RW_if TK_lpar EXP TK_rpar ENV 
             {
               Sentence RESULT =null;
-
+		int rleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
+		int rright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
+		String r = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
+		int cnleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int cnright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Expression cn = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int b1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int b1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Block b1 = (Block)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		RESULT = new If(rleft, rright, cn, b1, null);
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("IFSTRUCT",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
