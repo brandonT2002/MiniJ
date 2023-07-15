@@ -1,14 +1,14 @@
 package Classes.Instructions;
-
-import Classes.Abstracts.Instruction;
+import Classes.Abstracts.Expression;
 import Classes.Env.Env;
-import Classes.Utils.TypeInst;
-
-public class Continue extends Instruction {
+import Classes.Utils.ReturnType;
+import Classes.Utils.Type;
+import Classes.Utils.TypeExp;
+public class Continue extends Expression {
     public Continue(int line, int column) {
-        super(line, column, TypeInst.CONTINUE);
+        super(line, column, TypeExp.CONTINUE);
     }
-
-    public void exec(Env env) {
+    public ReturnType exec(Env env) {
+        return new ReturnType(this.typeExp, Type.NULL);
     }
 }

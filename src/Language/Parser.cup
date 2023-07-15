@@ -53,10 +53,13 @@ non terminal Expression EXP, ARITHMETICS, RELATIONALS, LOGICS, INCDEC, CALLFUNC;
 non terminal Instruction CALLMAINFUNC, INSTGLOBAL, PRINT, ADDSUB;
 non terminal Instruction DECLID, INITIDS, INITID, DECLFUNC;
 non terminal Sentence INSTRUCTION;
-non terminal Sentence IFSTRUCT, SWITCHSTRUCT, ENVS, CASESDEFAULT, CASES, DEFAULT, CASE;
+non terminal Sentence IFSTRUCT, SWITCHSTRUCT;
+non terminal Object[] ENVS, CASESDEFAULT;
+non terminal ArrayList<Case> CASES;
+non terminal Case CASE;
 non terminal Sentence LOOPWHILE, LOOPDOWHILE, LOOPFOR, ARGSFOR, INITIALIZE, UPDATESFOR, UPDATEFOR, REASIGNS, REASIGN;
 non terminal Type TYPE;
-non terminal Block ENV;
+non terminal Block ENV, DEFAULT;
 
 /* 5. Precedencias */
 precedence left TK_or;
@@ -124,30 +127,30 @@ IFSTRUCT ::=
     RW_if :r TK_lpar EXP :cn TK_rpar ENV :b1                      {:RESULT = new If(rleft, rright, cn, b1, null);:} ;
 
 SWITCHSTRUCT ::=
-    RW_switch TK_lpar EXP TK_rpar ENVS;
+    RW_switch :s TK_lpar EXP :exp TK_rpar ENVS :b {:RESULT = new Switch(sleft, sright, exp, (ArrayList<Case>) b[0], (Block) b[1]);:} ;
 
 ENVS ::=
-    TK_lbrc CASESDEFAULT TK_rbrc |
-    TK_lbrc TK_rbrc              ;
+    TK_lbrc CASESDEFAULT :cd TK_rbrc {:RESULT = cd;                       :} |
+    TK_lbrc TK_rbrc                  {:RESULT = new Object[] {null, null};:} ;
 
 CASESDEFAULT ::=
-    CASES DEFAULT |
-    CASES         |
-    DEFAULT       ;
+    CASES :c DEFAULT :d {:RESULT = new Object[] {c, d};   :} |
+    CASES :c            {:RESULT = new Object[] {c, null};:} |
+    DEFAULT :d          {:RESULT = new Object[] {null, d};:} ;
 
 CASES ::= 
-    CASES CASE |
-    CASE       ;
+    CASES :l CASE :c {:RESULT = l; RESULT.add(c);                 :} |
+    CASE :c          {:RESULT = new ArrayList<>(Arrays.asList(c));:} ;
 
 CASE ::= 
-    RW_case EXP TK_colon INSTRUCTIONS |
-    RW_case EXP TK_colon ENV          |
-    RW_case EXP TK_colon              ;
+    RW_case :c EXP :exp TK_colon INSTRUCTIONS :b {:RESULT = new Case(cleft, cright, exp, new Block(bleft, bright, b));                :} |
+    RW_case :c EXP :exp TK_colon ENV :b          {:RESULT = new Case(cleft, cright, exp, b);                                          :} |
+    RW_case :c EXP :exp TK_colon                 {:RESULT = new Case(cleft, cright, exp, new Block(cleft, cright, new ArrayList<>()));:} ;
 
 DEFAULT ::=
-    RW_default TK_colon INSTRUCTIONS |
-    RW_default TK_colon ENV          |
-    RW_default TK_colon              ;
+    RW_default :d TK_colon INSTRUCTIONS :b {:RESULT = new Block(dleft, dright, b);                :} |
+    RW_default :d TK_colon ENV :b          {:RESULT = b;                                          :} |
+    RW_default :d TK_colon                 {:RESULT = new Block(dleft, dright, new ArrayList<>());:} ;
 
 LOOPFOR ::=
     RW_for TK_lpar ARGSFOR TK_rpar ENV;

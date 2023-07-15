@@ -6,8 +6,6 @@ public enum TypeInst {
     ASIGN_ID,
     INIT_FUNCTION,
     MAIN,
-    BREAK,
-    CONTINUE,
     ADD,
     SUB
 }

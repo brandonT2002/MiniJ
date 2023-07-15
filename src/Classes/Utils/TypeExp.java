@@ -17,5 +17,7 @@ public enum TypeExp {
     LOOP_WHILE,
     LOOP_DOWHILE,
     SWITCH,
-    CASE
+    CASE,
+    BREAK,
+    CONTINUE
 }

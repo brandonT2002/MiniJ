@@ -1,14 +1,14 @@
 package Classes.Instructions;
-
-import Classes.Abstracts.Instruction;
+import Classes.Abstracts.Expression;
 import Classes.Env.Env;
-import Classes.Utils.TypeInst;
-
-public class Break extends Instruction {
+import Classes.Utils.ReturnType;
+import Classes.Utils.Type;
+import Classes.Utils.TypeExp;
+public class Break extends Expression {
     public Break(int line, int column) {
-        super(line, column, TypeInst.BREAK);
+        super(line, column, TypeExp.BREAK);
     }
-
-    public void exec(Env env) {
+    public ReturnType exec(Env env) {
+        return new ReturnType(this.typeExp, Type.NULL);
     }
 }
