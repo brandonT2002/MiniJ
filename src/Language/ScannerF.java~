@@ -335,7 +335,13 @@ public class ScannerF implements java_cup.runtime.Scanner {
   private int zzFinalHighSurrogate = 0;
 
   /* user code: */
-    
+    WordPainter painter;
+    public ScannerF(java.io.Reader in,WordPainter painter) {
+        yyline = 0;
+        yychar = 0;
+        this.zzReader = in;
+        this.painter = painter;
+    }
 
 
   /**

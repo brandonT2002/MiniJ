@@ -90,7 +90,9 @@ public class Controller {
                 if (mainMethod != null) {
                     mainMethod.exec(global);
                     if(Classes.Utils.Out.printConsole.size() > 0){
-                        outPrint += "\n" + Classes.Utils.Out.printConsole.toString().substring(1, Classes.Utils.Out.printConsole.toString().length() - 1).replace(", ", "\n");
+                        for(String print : Classes.Utils.Out.printConsole) {
+                            outPrint += "\n" + print;
+                        }
                     } else {
                         outPrint += "\n ->";
                     }

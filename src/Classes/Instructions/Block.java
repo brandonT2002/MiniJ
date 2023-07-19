@@ -18,15 +18,18 @@ public class Block extends Expression {
         Expression exp;
         Instruction inst;
         ReturnType ret;
+        // System.out.println("Env: " + env.name);
         for(Sentence instruction : instructions) {
             if(instruction.typeSent == TypeSent.EXPRESSION) {
                 exp = (Expression) instruction;
+                // System.out.println("    Instruction: " + exp.typeExp);
                 ret = exp.exec(newEnv);
                 if(ret != null && exp.typeExp != TypeExp.INC && exp.typeExp != TypeExp.DEC) {
                     return ret;
                 }
             } else if(instruction.typeSent == TypeSent.INSTRUCTION) {
                 inst = (Instruction) instruction;
+                // System.out.println("    Instruction: " + inst.typeInst);
                 inst.exec(newEnv);
             }
         }

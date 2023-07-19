@@ -4,6 +4,9 @@
     "java.project.referencedLibraries": [
         "c:\\Users\\Brandon\\VSCode-workspace\\Librerias\\java-cup-11b.jar",
         "c:\\Users\\Brandon\\VSCode-workspace\\Librerias\\java-cup-11b-runtime.jar",
-        "c:\\Users\\Brandon\\VSCode-workspace\\Librerias\\jflex-full-1.7.0.jar"
+        "c:\\Users\\Brandon\\VSCode-workspace\\Librerias\\jflex-full-1.7.0.jar",
+        "c:\\Users\\Brandon\\workspace-Java\\Librerias\\java-cup-11b.jar",
+        "c:\\Users\\Brandon\\workspace-Java\\Librerias\\java-cup-11b-runtime.jar",
+        "c:\\Users\\Brandon\\workspace-Java\\Librerias\\jflex-full-1.7.0.jar"
     ]
 }

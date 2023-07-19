@@ -25,7 +25,7 @@ public class CallFunction extends Expression {
                         envFunc.saveID(param.value.toString(), value.value, param.type, this.line, this.column);
                         continue;
                     }
-                    // ERROR SEMATICO: NO COINCIDEN LOS TIPOS DE LOS PARAMETROS
+                    // ERROR SEMANTICO: NO COINCIDEN LOS TIPOS DE LOS PARAMETROS
                     return null;
                 }
                 ReturnType execute = func.block.exec(envFunc);
@@ -40,7 +40,7 @@ public class CallFunction extends Expression {
             // ERROR SEMANTICO: NO CONICIDE LA CANTIDAD DE PARAMETROS ENVIADOS CON LOS RECIBIDOS
             return null;
         }
-        // ERROR SEMATICO: LA FUNCION QUE SE INTENTA LLAMAR NO ESTÁ DECLARADO
+        // ERROR SEMANTICO: LA FUNCION QUE SE INTENTA LLAMAR NO ESTÁ DECLARADO
         return null;
     }
 }

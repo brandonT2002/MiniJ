@@ -1,6 +1,5 @@
 package Classes.Utils;
-
 public enum TypeSent {
-    INSTRUCTION,
+    INSTRUCTION ,
     EXPRESSION
 }

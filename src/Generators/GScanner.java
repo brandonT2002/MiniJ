@@ -4,7 +4,7 @@ public class GScanner {
     public static void main(String[] args) {
         jflex.Main.generate(
             new File(
-                "src/Language/ScannerF.flex"
+                "src/Language/Scanner.jflex"
             )
         );
     }

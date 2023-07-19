@@ -1,13 +1,6 @@
 /* 1. Package e importaciones */
 package Language;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 import java_cup.runtime.*;
-import Components.Response;
-import Components.ErrorS;
 import Painter.WordPainter;
 
 /* 2. Codigo para el parser, variables y metodos */
@@ -38,17 +31,18 @@ terminal String TK_string, TK_char, TK_int, TK_double, TK_id, TK_inc, TK_dec, TK
 terminal String TK_plus, TK_minus, TK_mult, TK_div, TK_pow, TK_mod, TK_uminus;
 terminal String TK_equequ, TK_notequ, TK_lessequ, TK_moreequ, TK_equ, TK_less, TK_more;
 terminal String TK_and, TK_or, TK_not;
-terminal String TK_lpar, TK_rpar, TK_lbrc, TK_rbrc, TK_comma, TK_colon, TK_semicolon;
+terminal String TK_lpar, TK_rpar, TK_lbrc, TK_rbrc, TK_comma, TK_colon, TK_semicolon, TK_question;
 
 /* 4. No Terminales*/
 non terminal String INIT, INSTSGLOBAL, INSTGLOBAL, CALLMAINFUNC, CALLFUNC, LISTARGS, LISTPARAMS;
-non terminal String EXP, ARITHMETICS, RELATIONALS, LOGICS, INCDEC, ADDSUB;
+non terminal String EXP, ARITHMETICS, RELATIONALS, LOGICS, INCDEC, ADDSUB, TERNARY;
 non terminal String DECLID, TYPE, INITIDS, INITID, DECLFUNC, ENV, INSTRUCTIONS, INSTRUCTION;
 non terminal String PRINT, IFSTRUCT, SWITCHSTRUCT, ENVS, CASESDEFAULT, CASES, DEFAULT, CASE;
 non terminal String LOOPWHILE, LOOPDOWHILE, LOOPFOR, ARGSFOR, INITIALIZE, UPDATESFOR, UPDATEFOR, REASIGNS, REASIGN;
 non terminal String IDCOLORFNC, VOIDCOLOR, IFCOLOR, CASECOLOR, DEFAULTCOLOR, PRINTCOLOR, COLORLPAR, COLORRPAR, COLORLBRC, COLORRBRC;
 
 /* 5. Precedencias */
+precedence left TK_question, TK_colon;
 precedence left TK_or;
 precedence left TK_and;
 precedence right TK_not;
@@ -193,10 +187,6 @@ LOOPDOWHILE ::=
 REASIGN ::=
     TK_id :id {:painter.VARIABLE(idleft, idright);:} TK_equ EXP ;
 
-ADDSUB ::=
-    TK_id :id {:painter.VARIABLE(idleft, idright);:} TK_add EXP |
-    TK_id :id {:painter.VARIABLE(idleft, idright);:} TK_sub EXP ;
-
 ENV ::=
     COLORLBRC INSTRUCTIONS COLORRBRC |
     COLORLBRC COLORRBRC              ;
@@ -243,6 +233,7 @@ EXP ::=
     LOGICS              |
     INCDEC              |
     CALLFUNC            |
+    TERNARY             |
     TK_string :tr          {:painter.STRING(trleft, trright);:} |
     TK_char   :tr          {:painter.CHAR(trleft, trright);:} |
     TK_int    :tr          {:painter.NUMBER(trleft, trright);:} |
@@ -255,6 +246,13 @@ EXP ::=
 INCDEC ::=
     TK_id :id TK_inc {:painter.VARIABLE(idleft, idright);:} |
     TK_id :id TK_dec {:painter.VARIABLE(idleft, idright);:} ;
+
+ADDSUB ::=
+    TK_id :id {:painter.VARIABLE(idleft, idright);:} TK_add EXP |
+    TK_id :id {:painter.VARIABLE(idleft, idright);:} TK_sub EXP ;
+
+TERNARY ::=
+    EXP TK_question :q {:painter.SYMBS1(qleft, qright);:} EXP TK_colon :c {:painter.SYMBS1(cleft, cright);:} EXP ;
 
 ARITHMETICS ::=
     EXP TK_plus  EXP |

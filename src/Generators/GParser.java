@@ -1,10 +1,8 @@
 package Generators;
-
 public class GParser {
     public static void main(String[] args) {
         generate();
     }
-
     public static void generate() {
         try {
             java_cup.Main.main(

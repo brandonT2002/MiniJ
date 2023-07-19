@@ -2,13 +2,13 @@
 package Language;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java_cup.runtime.*;
 import Classes.Abstracts.*;
 import Classes.Expressions.*;
 import Classes.Instructions.*;
+import Classes.Utils.IDValue;
+import Classes.Utils.InitializeFor;
 import Classes.Utils.Type;
 import Components.Response;
 import Components.ErrorS;
@@ -42,26 +42,33 @@ terminal String TK_string, TK_char, TK_int, TK_double, TK_id, TK_inc, TK_dec, TK
 terminal String TK_plus, TK_minus, TK_mult, TK_div, TK_pow, TK_mod, TK_uminus;
 terminal String TK_equequ, TK_notequ, TK_lessequ, TK_moreequ, TK_equ, TK_less, TK_more;
 terminal String TK_and, TK_or, TK_not;
-terminal String TK_lpar, TK_rpar, TK_lbrc, TK_rbrc, TK_comma, TK_colon, TK_semicolon;
+terminal String TK_lpar, TK_rpar, TK_lbrc, TK_rbrc, TK_comma, TK_colon, TK_semicolon, TK_question;
 
 /* 4. No Terminales*/
 non terminal String INIT;
 non terminal ArrayList<Instruction> INSTSGLOBAL;
 non terminal ArrayList<Sentence> INSTRUCTIONS;
 non terminal ArrayList<Expression> LISTARGS, LISTPARAMS;
-non terminal Expression EXP, ARITHMETICS, RELATIONALS, LOGICS, INCDEC, CALLFUNC;
+non terminal Expression EXP, ARITHMETICS, RELATIONALS, LOGICS, INCDEC, CALLFUNC, TERNARY;
 non terminal Instruction CALLMAINFUNC, INSTGLOBAL, PRINT, ADDSUB;
-non terminal Instruction DECLID, INITIDS, INITID, DECLFUNC;
+non terminal Instruction DECLID, DECLFUNC;
+non terminal ArrayList<IDValue> INITIDS, INITIDSFOR;
+non terminal IDValue INITID, INITIDFOR;
 non terminal Sentence INSTRUCTION;
 non terminal Sentence IFSTRUCT, SWITCHSTRUCT;
-non terminal Object[] ENVS, CASESDEFAULT;
+non terminal Object[] ENVS, CASESDEFAULT, ARGSFOR;
 non terminal ArrayList<Case> CASES;
 non terminal Case CASE;
-non terminal Sentence LOOPWHILE, LOOPDOWHILE, LOOPFOR, ARGSFOR, INITIALIZE, UPDATESFOR, UPDATEFOR, REASIGNS, REASIGN;
+non terminal ArrayList<Sentence> UPDATESFOR;
+non terminal ArrayList<AsignID> REASIGNS;
+non terminal AsignID REASIGN;
+non terminal InitializeFor INITIALIZEFOR;
+non terminal Sentence LOOPWHILE, LOOPDOWHILE, LOOPFOR, UPDATEFOR;
 non terminal Type TYPE;
 non terminal Block ENV, DEFAULT;
 
 /* 5. Precedencias */
+precedence left TK_question, TK_colon;
 precedence left TK_or;
 precedence left TK_and;
 precedence right TK_not;
@@ -101,15 +108,15 @@ LISTARGS ::=
     EXP :e1                      {:RESULT = new ArrayList<>(Arrays.asList(e1));:} ;
 
 DECLID ::=
-    TYPE INITIDS TK_semicolon ;
+    TYPE :t INITIDS :arr TK_semicolon {:RESULT = new InitID(tleft, tright, arr, t);:} ;
 
 INITIDS ::=
-    INITIDS TK_comma INITID |
-    INITID                  ;
+    INITIDS :l TK_comma INITID :i {:RESULT = l; RESULT.add(i);                 :} |
+    INITID :i                     {:RESULT = new ArrayList<>(Arrays.asList(i));:} ;
 
 INITID ::=
-    TK_id TK_equ EXP |
-    TK_id            ;
+    TK_id :id TK_equ EXP :exp {:RESULT = new IDValue(id, exp); :} |
+    TK_id :id                 {:RESULT = new IDValue(id, null);:} ;
 
 DECLFUNC ::=
     TYPE    :t TK_id :id TK_lpar LISTPARAMS :l TK_rpar ENV :b {:RESULT = new Function(tleft, tright, id, l,                 b, t);        :} |
@@ -118,8 +125,8 @@ DECLFUNC ::=
     RW_void :t TK_id :id TK_lpar TK_rpar ENV :b               {:RESULT = new Function(tleft, tright, id, new ArrayList<>(), b, Type.NULL);:} ;
 
 LISTPARAMS ::=
-    LISTPARAMS:l TK_comma TYPE :t TK_id :id {:RESULT = l; RESULT.add(new Parameter(tleft, tright, id, t));                 :} |
-    TYPE :t TK_id :id                       {:RESULT = new ArrayList<>(Arrays.asList(new Parameter(tleft, tright, id, t)));:} ;
+    LISTPARAMS :l TK_comma TYPE :t TK_id :id {:RESULT = l; RESULT.add(new Parameter(tleft, tright, id, t));                 :} |
+    TYPE :t TK_id :id                        {:RESULT = new ArrayList<>(Arrays.asList(new Parameter(tleft, tright, id, t)));:} ;
 
 IFSTRUCT ::=
     RW_if :r TK_lpar EXP :cn TK_rpar ENV :b1 RW_else IFSTRUCT :b2 {:RESULT = new If(rleft, rright, cn, b1, b2);  :} |
@@ -153,43 +160,50 @@ DEFAULT ::=
     RW_default :d TK_colon                 {:RESULT = new Block(dleft, dright, new ArrayList<>());:} ;
 
 LOOPFOR ::=
-    RW_for TK_lpar ARGSFOR TK_rpar ENV;
+    RW_for :f TK_lpar ARGSFOR :args TK_rpar ENV :b {:RESULT = new For(fleft, fright, (InitializeFor) args[0], (Expression) args[1], (ArrayList<Sentence>) args[2], b);:} ;
 
 ARGSFOR ::=
-    INITIALIZE TK_semicolon EXP TK_semicolon UPDATESFOR |
-    INITIALIZE TK_semicolon EXP TK_semicolon            |
-    INITIALIZE TK_semicolon TK_semicolon UPDATESFOR     |
-    TK_semicolon EXP TK_semicolon UPDATESFOR            |
-    INITIALIZE TK_semicolon TK_semicolon                |
-    TK_semicolon EXP TK_semicolon                       |
-    TK_semicolon TK_semicolon UPDATESFOR                |
-    TK_semicolon TK_semicolon                           ;
+    INITIALIZEFOR :i TK_semicolon EXP :e TK_semicolon UPDATESFOR :u {:RESULT = new Object[] {i,    e,    u};   :} |
+    INITIALIZEFOR :i TK_semicolon EXP :e TK_semicolon               {:RESULT = new Object[] {i,    e,    null};:} |
+    INITIALIZEFOR :i TK_semicolon TK_semicolon UPDATESFOR :u        {:RESULT = new Object[] {i,    null, u};   :} |
+    TK_semicolon EXP :e TK_semicolon UPDATESFOR :u                  {:RESULT = new Object[] {null, e,    u};   :} |
+    INITIALIZEFOR :i TK_semicolon TK_semicolon                      {:RESULT = new Object[] {i,    null, null};:} |
+    TK_semicolon EXP :e TK_semicolon                                {:RESULT = new Object[] {null, e,    null};:} |
+    TK_semicolon TK_semicolon UPDATESFOR :u                         {:RESULT = new Object[] {null, null, u};   :} |
+    TK_semicolon TK_semicolon                                       {:RESULT = new Object[] {null, null, null};:} ;
 
-INITIALIZE ::=
-    TYPE REASIGNS |
-    REASIGNS      ;
+INITIALIZEFOR ::=
+    TYPE :t INITIDSFOR :r {:RESULT = new InitializeFor(new InitID(tleft, tright, r, t));:} |
+    REASIGNS :r           {:RESULT = new InitializeFor(r);:} ;
+
+INITIDSFOR ::=
+    INITIDSFOR :l TK_comma INITIDFOR :i {:RESULT = l; RESULT.add(i);                 :} |
+    INITIDFOR :i                        {:RESULT = new ArrayList<>(Arrays.asList(i));:} ;
+
+INITIDFOR ::=
+    TK_id :id TK_equ EXP :exp {:RESULT = new IDValue(id, exp); :} ;
 
 REASIGNS ::=
-    REASIGNS TK_comma REASIGN |
-    REASIGN                   ;
+    REASIGNS :l TK_comma REASIGN :r {:RESULT = l; RESULT.add(r);                 :} |
+    REASIGN :r                      {:RESULT = new ArrayList<>(Arrays.asList(r));:} ;
 
 UPDATESFOR ::=
-    UPDATESFOR TK_comma UPDATEFOR |
-    UPDATEFOR                     ;
+    UPDATESFOR :l TK_comma UPDATEFOR :up {:RESULT = l; RESULT.add(up);                 :} |
+    UPDATEFOR :up                        {:RESULT = new ArrayList<>(Arrays.asList(up));:} ;
 
 UPDATEFOR ::=
-    INCDEC  |
-    REASIGN |
-    ADDSUB  ;
-
-LOOPWHILE ::=
-    RW_while TK_lpar EXP TK_rpar ENV ;
-
-LOOPDOWHILE ::=
-    RW_do ENV RW_while TK_lpar EXP TK_rpar TK_semicolon;
+    INCDEC  :update {:RESULT = update;:} |
+    REASIGN :update {:RESULT = update;:} |
+    ADDSUB  :update {:RESULT = update;:} ;
 
 REASIGN ::=
-    TK_id TK_equ EXP ;
+    TK_id :id TK_equ EXP :exp {:RESULT = new AsignID(idleft, idright, id, exp);:} ;
+
+LOOPWHILE ::=
+    RW_while :w TK_lpar EXP :exp TK_rpar ENV :b {:RESULT = new While(wleft, wright, exp, b);:} ;
+
+LOOPDOWHILE ::=
+    RW_do :d ENV :b RW_while TK_lpar EXP :exp TK_rpar TK_semicolon {:RESULT = new DoWhile(dleft, dright, exp, b);:} ;
 
 ENV ::=
     TK_lbrc :l INSTRUCTIONS :ins TK_rbrc {:RESULT = new Block(lleft, lright, ins);              :} |
@@ -234,7 +248,8 @@ EXP ::=
     LOGICS      :exp         {:RESULT = exp;:} |
     INCDEC      :exp         {:RESULT = exp;:} |
     CALLFUNC    :exp         {:RESULT = exp;:} |
-    TK_id       :id          {:RESULT = new AccessID(idleft,idright,id);:} |
+    TERNARY     :exp         {:RESULT = exp;:} |
+    TK_id       :id          {:RESULT = new AccessID(idleft, idright, id);:} |
     TK_string   :p           {:RESULT = new Primitive(pleft, pright, p, Type.STRING); :} |
     TK_char     :p           {:RESULT = new Primitive(pleft, pright, p, Type.CHAR);   :} |
     TK_int      :p           {:RESULT = new Primitive(pleft, pright, p, Type.INT);    :} |
@@ -250,6 +265,9 @@ INCDEC ::=
 ADDSUB ::=
     TK_id :id TK_add :s EXP :exp {:RESULT = new AddSub(idleft, idright, id, s, exp);:} |
     TK_id :id TK_sub :s EXP :exp {:RESULT = new AddSub(idleft, idright, id, s, exp);:} ;
+
+TERNARY ::=
+    EXP :c TK_question EXP :y TK_colon EXP :n {:RESULT = new Ternary(cleft, cright, c, y, n);:} ;
 
 ARITHMETICS ::=
     EXP :e1 TK_plus  :s EXP :e2 {:RESULT = new Arithmetic(e1left, e1right, e1, s, e2);:} |

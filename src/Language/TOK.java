@@ -43,6 +43,7 @@ public class TOK {
   public static final int error = 1;
   public static final int TK_int = 25;
   public static final int RW_double = 8;
+  public static final int TK_question = 56;
   public static final int TK_mult = 34;
   public static final int TK_lbrc = 51;
   public static final int TK_not = 48;
@@ -120,7 +121,8 @@ public class TOK {
   "TK_rbrc",
   "TK_comma",
   "TK_colon",
-  "TK_semicolon"
+  "TK_semicolon",
+  "TK_question"
   };
 }
 

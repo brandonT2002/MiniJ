@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import Classes.Abstracts.Expression;
 import Classes.Env.Env;
 import Classes.Utils.ReturnType;
-import Classes.Utils.Type;
 import Classes.Utils.TypeExp;
 public class Switch extends Expression {
     Expression arg;
@@ -23,12 +22,11 @@ public class Switch extends Expression {
                 case_.setCase(arg);
                 ReturnType case_exec = case_.exec(envSwitch);
                 if(case_exec != null) {
-                    System.out.println(case_exec);
                     if(case_exec.value == TypeExp.RETURN) {
-                        return new ReturnType("NULL", Type.NULL);
+                        return null;
                     }
                     if(case_exec.value == TypeExp.BREAK) {
-                        return new ReturnType("NULL", Type.NULL);
+                        return null;
                     }
                     return case_exec;
                 }
@@ -38,14 +36,14 @@ public class Switch extends Expression {
             ReturnType default_ = this._default.exec(env);
             if(default_ != null) {
                 if(default_.value == TypeExp.RETURN) {
-                    return new ReturnType("NULL", Type.NULL);
+                    return null;
                 }
                 if(default_.value == TypeExp.BREAK) {
-                    return new ReturnType("NULL", Type.NULL);
+                    return null;
                 }
                 return default_;
             }
         }
-        return new ReturnType("NULL", Type.NULL);
+        return null;
     }
 }

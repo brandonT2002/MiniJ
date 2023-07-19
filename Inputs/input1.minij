@@ -9,11 +9,17 @@ boolean b;
 
 void inicial() {
     int fact = 5;
+	print("============= RECURSIVIDAD =============");
     print("Factorial: " + fact + " = " + factorial(fact));
+	print("================== IF ==================");
     estructuraIf();
+	print("================ SWITCH ================");
     estructuraSwitch();
+	print("================= FOR ==================");
     loopFor();
+	print("================ WHILE =================");
     loopWhile();
+	print("=============== DO WHILE ===============");
     loopDowhile();
     fact += 70;
 }
@@ -33,16 +39,20 @@ void loopFor() {
 }
 
 void loopWhile() {
-    int i = 0;
+    int i = 4;
+	t = 29;
     while(i > 0 && t != 30) {
-        i ++;
+		print("i = " + i);
+        i --;
     }
 }
 
 void loopDowhile() {
-    int i = 0;
+    int i = 4;
+	t = 29;
     do {
-        i ++;
+		print("i = " + i);
+        i --;
     }
     while(i > 0 && t != 30);
 }
@@ -73,24 +83,6 @@ void estructuraIf() {
     }
     else {
         print("Hola Mundo");
-    }
-    // IF ELSE
-    if(hola == "Hola") {
-        print("Hola");
-    }
-    else {
-        print("Hola Mundo");
-    }
-    // IF ELSE IF
-    if(hola == "Hola") {
-        print("Hola");
-    }
-    else if(hola == "Mundo"){
-        print("Mundo");
-    }
-    // IF
-    if(hola == "Hola") {
-        print("Hola");
     }
 }
 
