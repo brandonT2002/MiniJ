@@ -80,7 +80,7 @@ public class IconFile extends JPanel implements MouseListener {
 			ide.updateTag();
 			return;
 		}
-		JOptionPane.showMessageDialog(null, "No se encontrÃ³ el archivo.", "Archivo no encontrado.",
+		JOptionPane.showMessageDialog(null, "No se encontró el archivo.", "Archivo no encontrado.",
 				JOptionPane.ERROR_MESSAGE);
 		controller.pjs.remove(id);
 		controller.serialize();
@@ -97,9 +97,9 @@ public class IconFile extends JPanel implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (e.getClickCount() == 2) {
+		//if (e.getClickCount() == 2) {
 			lookCode();
-		}
+		//}
 	}
 
 	public void mousePressed(MouseEvent e) {

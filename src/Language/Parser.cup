@@ -141,9 +141,9 @@ ENVS ::=
     TK_lbrc TK_rbrc                  {:RESULT = new Object[] {null, null};:} ;
 
 CASESDEFAULT ::=
-    CASES :c DEFAULT :d {:RESULT = new Object[] {c, d};   :} |
-    CASES :c            {:RESULT = new Object[] {c, null};:} |
-    DEFAULT :d          {:RESULT = new Object[] {null, d};:} ;
+    CASES :c DEFAULT :d {:RESULT = new Object[] {c,    d};   :} |
+    CASES :c            {:RESULT = new Object[] {c,    null};:} |
+    DEFAULT :d          {:RESULT = new Object[] {null, d};   :} ;
 
 CASES ::= 
     CASES :l CASE :c {:RESULT = l; RESULT.add(c);                 :} |
@@ -276,7 +276,7 @@ ARITHMETICS ::=
     EXP :e1 TK_div   :s EXP :e2 {:RESULT = new Arithmetic(e1left, e1right, e1, s, e2);:} |
     EXP :e1 TK_pow   :s EXP :e2 {:RESULT = new Arithmetic(e1left, e1right, e1, s, e2);:} |
     EXP :e1 TK_mod   :s EXP :e2 {:RESULT = new Arithmetic(e1left, e1right, e1, s, e2);:} |
-    TK_minus :s         EXP :e2 {:RESULT = new Arithmetic(sleft, sright, null, s, e2);:} %prec TK_uminus;
+    TK_minus :s         EXP :e2 {:RESULT = new Arithmetic(sleft, sright, null, s, e2);:} %prec TK_uminus ;
 
 RELATIONALS ::=
     EXP :e1 TK_equequ  :s EXP :e2 {:RESULT = new Relational(e1left, e1right, e1, s, e2);:} |

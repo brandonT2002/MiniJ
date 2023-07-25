@@ -1197,7 +1197,7 @@ class CUP$Parser$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Block d = (Block)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = new Object[] {c, d};   
+		RESULT = new Object[] {c,    d};   
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("CASESDEFAULT",26, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -1209,7 +1209,7 @@ class CUP$Parser$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		ArrayList<Case> c = (ArrayList<Case>)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = new Object[] {c, null};
+		RESULT = new Object[] {c,    null};
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("CASESDEFAULT",26, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -1221,7 +1221,7 @@ class CUP$Parser$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Block d = (Block)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		RESULT = new Object[] {null, d};
+		RESULT = new Object[] {null, d};   
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("CASESDEFAULT",26, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

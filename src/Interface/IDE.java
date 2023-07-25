@@ -100,12 +100,12 @@ public class IDE extends JPanel
 
     void defineComponents() {
         // projects
-        projects.setBackground(Colors.MEDIUMVSCODE2);
+        projects.setBackground(Colors.MEDIUMCOLOR2);
         projects.setBounds(50, 105, 220, 808);
         projects.setLayout(null);
         // editorArea
         editorAreaContent.setLayout(new BorderLayout());
-        editorAreaContent.setBorder(BorderFactory.createLineBorder(Colors.DARKVSCODE, 8));
+        editorAreaContent.setBorder(BorderFactory.createLineBorder(Colors.DARKCOLOR, 8));
         editorArea = new EditorArea();
         editorArea.editor.addKeyListener(this);
         editorAreaContent.add(editorArea, BorderLayout.WEST);
@@ -121,24 +121,24 @@ public class IDE extends JPanel
         // console
         console.setEditable(false);
         console.setForeground(Colors.WHITE);
-        console.setBackground(Colors.DARKVSCODE);
+        console.setBackground(Colors.DARKCOLOR);
         console.setText("Mini J:\n->");
         console.setFont(new java.awt.Font("Consolas", 0, 13));
         console.setBounds(0, 0, 1566, 162);
 
         consoleScroll = new JScrollPane(console);
-        consoleScroll.setBorder(BorderFactory.createLineBorder(Colors.DARKVSCODE, 8));
+        consoleScroll.setBorder(BorderFactory.createLineBorder(Colors.DARKCOLOR, 8));
         consoleScroll.setBounds(304, 750, 1566, 162);
         // out console
         outConsole.setEditable(false);
         outConsole.setForeground(Colors.WHITE);
-        outConsole.setBackground(Colors.DARKVSCODE);
+        outConsole.setBackground(Colors.DARKCOLOR);
         outConsole.setText("Mini J:\n->");
         outConsole.setFont(new java.awt.Font("Consolas", 0, 13));
         outConsole.setBounds(0, 0, 770, 620);
 
         outScroll = new JScrollPane(outConsole);
-        outScroll.setBorder(BorderFactory.createLineBorder(Colors.DARKVSCODE, 8));
+        outScroll.setBorder(BorderFactory.createLineBorder(Colors.DARKCOLOR, 8));
         outScroll.setBounds(1100, 105, 770, 620);
         // graphics
         /*
@@ -150,20 +150,20 @@ public class IDE extends JPanel
         // analyzeInput
         analyzeInput.locationSize(624, 56, 30, 30);
         analyzeInput.Icon(Icons.PLAY);
-        analyzeInput.setDesign(Colors.GREEN2);
-        analyzeInput.setHoverColor(Colors.GREEN3);
+        analyzeInput.setDesign(Colors.COLOR2);
+        analyzeInput.setHoverColor(Colors.COLOR3);
         analyzeInput.addMouseListener(this);
         // uploadOuts
         uploadOuts.locationSize(659, 56, 30, 30);
         uploadOuts.Icon(Icons.UPLOAD);
-        uploadOuts.setDesign(Colors.GREEN2);
-        uploadOuts.setHoverColor(Colors.GREEN3);
+        uploadOuts.setDesign(Colors.COLOR2);
+        uploadOuts.setHoverColor(Colors.COLOR3);
         uploadOuts.addMouseListener(this);
         // saveOLC
         saveOLC.locationSize(694, 56, 30, 30);
         saveOLC.Icon(Icons.SAVE);
-        saveOLC.setDesign(Colors.GREEN2);
-        saveOLC.setHoverColor(Colors.GREEN3);
+        saveOLC.setDesign(Colors.COLOR2);
+        saveOLC.setHoverColor(Colors.COLOR3);
         saveOLC.addMouseListener(this);
     }
 
@@ -239,7 +239,7 @@ public class IDE extends JPanel
         projects.add(new Label(0, 10, projects.getWidth(), 25, "Proyectos", 16));
         for (int i = 0; i < controller.countPJ(); i++) {
             controller.pjs.get(i).locationSize(0, i * 25 + 40, this.projects.getWidth(), 25);
-            controller.pjs.get(i).setHoverColor(Colors.LIGHTVSCODE);
+            controller.pjs.get(i).setHoverColor(Colors.LIGHTCOLOR);
             projects.add(controller.pjs.get(i));
         }
         projects.repaint();
@@ -269,7 +269,7 @@ public class IDE extends JPanel
     }
 
     void init() {
-        this.setBackground(Colors.MEDIUMVSCODE1);
+        this.setBackground(Colors.MEDIUMCOLOR1);
         this.setLayout(null);
     }
 
