@@ -136,17 +136,17 @@ CASES ::=
     CASE       ;
 
 CASE ::=
-    CASECOLOR EXP TK_colon INSTRUCTIONS |
-    CASECOLOR EXP TK_colon ENV          |
-    CASECOLOR EXP TK_colon              ;
+    CASECOLOR EXP TK_colon :c {:painter.SYMBS1(cleft, cright);:} INSTRUCTIONS |
+    CASECOLOR EXP TK_colon :c {:painter.SYMBS1(cleft, cright);:} ENV          |
+    CASECOLOR EXP TK_colon :c {:painter.SYMBS1(cleft, cright);:}              ;
 
 CASECOLOR ::=
     RW_case :cs {:painter.RW2(csleft, csright);:} ;
 
 DEFAULT ::=
-    DEFAULTCOLOR TK_colon INSTRUCTIONS |
-    DEFAULTCOLOR TK_colon ENV          |
-    DEFAULTCOLOR TK_colon              ;
+    DEFAULTCOLOR TK_colon :c {:painter.SYMBS1(cleft, cright);:} INSTRUCTIONS |
+    DEFAULTCOLOR TK_colon :c {:painter.SYMBS1(cleft, cright);:} ENV          |
+    DEFAULTCOLOR TK_colon :c {:painter.SYMBS1(cleft, cright);:}              ;
 
 DEFAULTCOLOR ::=
     RW_default :df {:painter.RW2(dfleft, dfright);:} ;

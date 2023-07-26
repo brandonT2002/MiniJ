@@ -36,7 +36,7 @@ import Components.ErrorL;
 
 //Expresiones regulares
 UNUSED=[ \r\t]+
-CONTENT = ([^\n\"\\]?|\\.)
+CONTENT = ([^\n\"\\]|\\.)
 ID = (\_)*[a-zA-Z][a-zA-Z0-9\_]*
 STRING = \"({CONTENT}*)\"
 CHAR = \'({CONTENT})\'
