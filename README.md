@@ -1,3 +1,9 @@
 # MiniJ
+## VSCode Theme
+![Window](Images/ScreenVSCodeTheme.png)
 
-![Window](Images/Screen.png)
+## GitHub Theme
+![Window](Images/ScreenGitHubTheme.png)
+
+## Eclipse Theme
+![Window](Images/ScreenEclipseTheme.png)
