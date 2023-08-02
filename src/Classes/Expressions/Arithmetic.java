@@ -150,6 +150,10 @@ public class Arithmetic extends Expression {
         int t2 = getType(value2.type);
         type = !(t1 == 5 || t2 == 5) ? Operations.mod[t1][t2] : Type.NULL;
         if(type != Type.NULL) {
+            if(type == Type.INT) {
+                int result = Integer.parseInt(getValue(value1).value.toString()) % Integer.parseInt(getValue(value2).value.toString());
+                return new ReturnType(result, type);
+            }
             if(type == Type.DOUBLE) {
                 double result = Double.parseDouble(getValue(value1).value.toString()) % Double.parseDouble(getValue(value2).value.toString());
                 return new ReturnType(result, type);

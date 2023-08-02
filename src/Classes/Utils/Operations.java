@@ -36,7 +36,7 @@ public class Operations {
         {Type.NULL,     Type.NULL,      Type.NULL,      Type.NULL,      Type.NULL}
     };
     public static Type[][] mod = {
-        {Type.DOUBLE,   Type.DOUBLE,    Type.NULL,      Type.NULL,      Type.NULL},
+        {Type.INT,      Type.DOUBLE,    Type.NULL,      Type.NULL,      Type.NULL},
         {Type.DOUBLE,   Type.DOUBLE,    Type.NULL,      Type.NULL,      Type.NULL},
         {Type.NULL,     Type.NULL,      Type.NULL,      Type.NULL,      Type.NULL},
         {Type.NULL,     Type.NULL,      Type.NULL,      Type.NULL,      Type.NULL},
